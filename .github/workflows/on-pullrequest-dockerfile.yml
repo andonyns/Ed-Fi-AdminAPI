@@ -24,6 +24,7 @@ env:
   DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
   IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+  IMAGE_VERSION: pre-1.3
 
 jobs:
   # docker-testing:
@@ -62,6 +63,6 @@ jobs:
         uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
         with:
           command: sbom
-          image: ${{ env.IMAGE_NAME }}
+          image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
 
       - run: ls
