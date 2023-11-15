@@ -23,6 +23,7 @@ on:
 env:
   DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
 
 jobs:
   docker-testing:
@@ -53,8 +54,13 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_HUB_TOKEN }}
 
+  docker-analysis:
+    runs-on: ubuntu-latest
+    steps:
       - name: SBOM
         uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
         with:
           command: sbom
-          image: ${{ matrix.dockerfile.path }}
+          image: ${{ env.IMAGE_NAME }}
+
+      - run: ls
