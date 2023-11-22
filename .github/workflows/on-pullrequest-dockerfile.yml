@@ -27,31 +27,27 @@ env:
   IMAGE_VERSION: pre-1.3
 
 jobs:
-  # docker-testing:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       dockerfile: [
-  #           { name: "ApiDatabase", path: "Docker/Settings/DB-Admin/pgsql/Dockerfile" },
-  #           { name: "Postgres", path: "Docker/pgsql.Dockerfile" },
-  #           { name: "Sql", path: "Docker/mssql.Dockerfile" },
-  #           { name: "Database", path: "Docker/dbadmin.Dockerfile" },
-  #           { name: "Development", path: "Docker/dev.Dockerfile" },
-  #         ]
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-  #     - name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
-  #       uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
-  #       with:
-  #         dockerfile: ${{ matrix.dockerfile.path }}
-  #         failure-threshold: error
-
-  docker-analysis:
+  docker-testing:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile: [
+            { name: "ApiDatabase", path: "Docker/Settings/DB-Admin/pgsql/Dockerfile" },
+            # { name: "Postgres", path: "Docker/pgsql.Dockerfile" },
+            # { name: "Sql", path: "Docker/mssql.Dockerfile" },
+            # { name: "Database", path: "Docker/dbadmin.Dockerfile" },
+            # { name: "Development", path: "Docker/dev.Dockerfile" },
+          ]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+
+      # - name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
+      #   uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+      #   with:
+      #     dockerfile: ${{ matrix.dockerfile.path }}
+      #     failure-threshold: error
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
@@ -59,10 +55,40 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_HUB_TOKEN }}
 
-      - name: SBOM
+      - name: Build
+        run: docker build -t ${{ matrix.dockerfile.name }} -f ${{ matrix.dockerfile.path }}
+
+      - name: Analize
         uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
         with:
-          command: sbom
-          image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+          command: cves
+          image: local://${{ matrix.dockerfile.name }}
+          sarif-file: sarif-${{ matrix.dockerfile.name }}.output.json
+
+      - name: Upload SARIF result
+        id: upload-sarif
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: sarif-${{ matrix.dockerfile.name }}.output.json
 
       - run: ls
+
+
+  # docker-analysis:
+  #   runs-on: ubuntu-latest
+  #   steps:
+
+  #     - name: Log in to Docker Hub
+  #       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
+  #       with:
+  #         username: ${{ env.DOCKER_USERNAME }}
+  #         password: ${{ env.DOCKER_HUB_TOKEN }}
+
+  #     # - name: SBOM
+  #     #   uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
+  #     #   with:
+  #     #     command: sbom
+  #     #     image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+
+  #     - run: ls
