@@ -64,7 +64,8 @@ jobs:
         uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
         with:
           command: cves
-          image: local://${{ matrix.dockerfile.name }}
+          # image: local://${{ matrix.dockerfile.name }}
+          image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
           sarif-file: sarif-${{ matrix.dockerfile.name }}.output.json
 
       - name: Upload SARIF result
