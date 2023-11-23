@@ -59,6 +59,7 @@ jobs:
 
       - name: Set Version Numbers
         id: versions
+        shell: pwsh
         run: |
           $apiPrefix = "v"
 
