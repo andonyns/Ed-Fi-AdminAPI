@@ -36,7 +36,7 @@ jobs:
       matrix:
         dockerfile: [
             { name: "api-database", path: "Docker/Settings/DB-Admin/pgsql" },
-            { name: "postgres", path: "Docker/Dockerfile" },
+            { name: "postgres", path: "Docker" },
             # { name: "sql-server", path: "Docker/mssql.Dockerfile" },
             # { name: "database", path: "Docker/dbadmin.Dockerfile" },
             # { name: "development", path: "Docker/dev.Dockerfile" },
@@ -44,6 +44,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        with:
+          fetch-depth: 0w
 
       # - name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
       #   uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
