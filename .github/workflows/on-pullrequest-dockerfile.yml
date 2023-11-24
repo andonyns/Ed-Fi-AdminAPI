@@ -67,10 +67,13 @@ jobs:
           &dotnet tool install --global minver-cli
 
           "admin-api=$($apiPrefix)$(minver -t $apiPrefix)" >> $env:GITHUB_OUTPUT
+          echo "admin-api=$($apiPrefix)$(minver -t $apiPrefix)"
+          "VERSION=2.0.1" >> $env:GITHUB_OUTPUT
 
       - name: Build
         run: |
           cd ${{ matrix.dockerfile.path }}
+          echo {{ steps.versions.outputs.VERSION }}
           docker build -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
       - name: Analize
