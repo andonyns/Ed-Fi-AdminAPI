@@ -36,7 +36,7 @@ jobs:
       matrix:
         dockerfile: [
             { name: "api-database", path: "Docker/Settings/DB-Admin/pgsql" },
-            # { name: "postgres", path: "Docker/pgsql.Dockerfile" },
+            { name: "postgres", path: "Docker/Dockerfile" },
             # { name: "sql-server", path: "Docker/mssql.Dockerfile" },
             # { name: "database", path: "Docker/dbadmin.Dockerfile" },
             # { name: "development", path: "Docker/dev.Dockerfile" },
