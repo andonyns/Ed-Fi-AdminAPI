@@ -80,9 +80,8 @@ jobs:
 
     - name: Build
       run: |
-        folder=${${{matrix.dockerfile.path}}%/*}
-        echo ${${{matrix.dockerfile.path}}%/*}
-        echo ${"Docker/Settings/DB-Admin/pgsql/Dockerfile"%/*}
+        path=${{matrix.dockerfile.path}}
+        folder=${path%/*}
         cd $folder
         echo $folder
         dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
