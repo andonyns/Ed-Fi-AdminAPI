@@ -62,13 +62,15 @@ jobs:
       run: |
         "VERSION=2.0.1" >> $env:GITHUB_OUTPUT
 
-    - name: Build
+    - name: Move to folder
+      if: ${{ matrix.dockerfile.name }} == 'api-database'
       run: |
         path=${{matrix.dockerfile.path}}
         folder=${path%/*}
-        if [ ${{ matrix.dockerfile.name }} == 'api-database'  ]; then
-          cd $folder
-        if
+        cd $folder
+
+    - name: Build
+      run: |
         dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
         docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
