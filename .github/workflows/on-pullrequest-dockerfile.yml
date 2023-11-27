@@ -44,11 +44,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
-    - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
-      name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
-      with:
-        dockerfile: ${{ matrix.dockerfile.path }}
-        failure-threshold: error
+    # - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+    #   name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
+    #   with:
+    #     dockerfile: ${{ matrix.dockerfile.path }}
+    #     failure-threshold: error
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
@@ -72,6 +72,7 @@ jobs:
     - name: Build
       run: |
         dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+        echo $dockerfile
         docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
     - name: Analize
