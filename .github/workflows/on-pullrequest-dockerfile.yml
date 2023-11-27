@@ -68,8 +68,10 @@ jobs:
           path=${{matrix.dockerfile.path}}
           folder=${path%/*}
           cd $folder
+          dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+        else
+          dockerfile=${{ matrix.dockerfile.path }}
         fi
-        dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
         docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
     - name: Analize
