@@ -71,7 +71,7 @@ jobs:
 
     - name: Build
       run: |
-        dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+        dockerfile=/$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
         echo $dockerfile
         docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
