@@ -86,7 +86,7 @@ jobs:
         dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
         echo $dockerfile
         echo {{ steps.versions.outputs.VERSION }}
-        docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
+        docker build -f ${{matrix.dockerfile.path}} -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
     - name: Analize
       uses: docker/scout-action@4e9ac4df44fb56797da111fce8185f7fbffd5a09 # v1.0.9
