@@ -37,9 +37,9 @@ jobs:
         dockerfile: [
           # { name: "api-database", path: "Docker/Settings/DB-Admin/pgsql/Dockerfile" },
           # { name: "postgres", path: "Docker/Dockerfile" },
-          { name: "database", path: "Docker/dbadmin.Dockerfile" }
+          # { name: "database", path: "Docker/dbadmin.Dockerfile" }
           #,
-          # { name: "development", path: "Docker/dev.Dockerfile" },
+          { name: "development", path: "Docker/dev.Dockerfile" },
           ]
     steps:
     - name: Checkout code
