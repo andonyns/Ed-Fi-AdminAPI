@@ -67,8 +67,11 @@ jobs:
         # if [ ${{ matrix.dockerfile.name }} == 'api-database' ]; then
         path=${{matrix.dockerfile.path}}
         folder=${path%/*}
+        # temp comment
         # cd $folder
         dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+        echo $dockerfile
+        echo ls
         # else
         #   cd /Docker
         #   dockerfile=${{ matrix.dockerfile.path }}
