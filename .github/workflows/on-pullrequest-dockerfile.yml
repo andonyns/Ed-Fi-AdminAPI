@@ -122,7 +122,9 @@ jobs:
         password: ${{ env.DOCKER_HUB_TOKEN }}
 
     - name: Build
-      run: docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
+      run: |
+        ls
+        docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
       env:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: abcdefgh1!
