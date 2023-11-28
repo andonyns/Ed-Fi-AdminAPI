@@ -108,6 +108,7 @@ jobs:
       run: |
         mkdir Application
         cp -r ../Application/EdFi.Ods.AdminApi ./Application
+        cp ../Application/NuGet.Config ./Application
 
     # - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
     #   name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
@@ -122,9 +123,7 @@ jobs:
         password: ${{ env.DOCKER_HUB_TOKEN }}
 
     - name: Build
-      run: |
-        ls
-        docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
+      run: docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
       env:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: abcdefgh1!
