@@ -35,9 +35,9 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile: [
-          { name: "api-database", path: "Docker/Settings/DB-Admin/pgsql/Dockerfile" },
-          { name: "postgres", path: "Docker/Dockerfile" },
-          # { name: "database", path: "Docker/dbadmin.Dockerfile" },
+          # { name: "api-database", path: "Docker/Settings/DB-Admin/pgsql/Dockerfile" },
+          # { name: "postgres", path: "Docker/Dockerfile" },
+          { name: "database", path: "Docker/dbadmin.Dockerfile" } #,
           # { name: "development", path: "Docker/dev.Dockerfile" },
           ]
     steps:
