@@ -119,6 +119,7 @@ jobs:
 
     - name: Build
       run: |
+        ls
         cd ./Docker
         docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
       env:
