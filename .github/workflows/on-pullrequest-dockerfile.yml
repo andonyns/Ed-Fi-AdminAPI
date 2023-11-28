@@ -60,6 +60,7 @@ jobs:
       id: versions
       shell: pwsh
       run: |
+        echo ${{ github.ref_name }}
         "VERSION=2.0.1" >> $env:GITHUB_OUTPUT
 
     - name: Build
