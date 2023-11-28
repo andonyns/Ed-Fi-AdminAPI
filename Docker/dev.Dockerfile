@@ -28,8 +28,8 @@ LABEL maintainer="Ed-Fi Alliance, LLC and Contributors <techsupport@ed-fi.org>"
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV ASPNETCORE_ENVIRONMENT Production
 
-COPY Docker/Settings/dev/run.sh /app/run.sh
-COPY Docker/Settings/dev/log4net.config /app/log4net.txt
+COPY Settings/dev/run.sh /app/run.sh
+COPY Settings/dev/log4net.config /app/log4net.txt
 
 WORKDIR /app
 COPY --from=publish /app/EdFi.Ods.AdminApi .
