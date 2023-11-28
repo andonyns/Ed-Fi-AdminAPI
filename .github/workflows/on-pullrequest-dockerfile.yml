@@ -64,7 +64,7 @@ jobs:
 
     - name: Build
       run: |
-        if (( ${{ matrix.dockerfile.name }} == 'api-database' || ${{ matrix.dockerfile.name }} == 'postgres' )); then
+        if [[ ${{ matrix.dockerfile.name }} == 'api-database' || ${{ matrix.dockerfile.name }} == 'postgres' ]]; then
           path=${{matrix.dockerfile.path}}
           folder=${path%/*}
           cd $folder
