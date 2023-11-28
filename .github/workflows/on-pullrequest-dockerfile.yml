@@ -103,8 +103,8 @@ jobs:
       if:
       run: |
         ls
-        mkdir Application
-        cp -r ./Application/EdFi.Ods.AdminApi ./Application
+        mkdir Docker/Application
+        cp -r ./Application/EdFi.Ods.AdminApi ./Docker/Application
 
     - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
       name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
