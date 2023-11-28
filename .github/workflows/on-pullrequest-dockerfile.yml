@@ -64,15 +64,15 @@ jobs:
 
     - name: Build
       run: |
-        if [ ${{ matrix.dockerfile.name }} == 'api-database' ]; then
-          path=${{matrix.dockerfile.path}}
-          folder=${path%/*}
-          cd $folder
-          dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
-        else
-          cd /Docker
-          dockerfile=${{ matrix.dockerfile.path }}
-        fi
+        # if [ ${{ matrix.dockerfile.name }} == 'api-database' ]; then
+        path=${{matrix.dockerfile.path}}
+        folder=${path%/*}
+        cd $folder
+        dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+        # else
+        #   cd /Docker
+        #   dockerfile=${{ matrix.dockerfile.path }}
+        # fi
         docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="VERSION=${{ steps.versions.outputs.VERSION }}" .
 
     - name: Analize
