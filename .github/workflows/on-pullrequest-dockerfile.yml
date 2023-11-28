@@ -92,8 +92,8 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile: [
-          { name: "database", path: "dbadmin.Dockerfile" },
-          { name: "development", path: "dev.Dockerfile" },
+          { name: "database", path: "Docker/dbadmin.Dockerfile" },
+          { name: "development", path: "Docker/dev.Dockerfile" },
           ]
     defaults:
       run:
@@ -110,11 +110,11 @@ jobs:
         cp -r ../Application/EdFi.Ods.AdminApi ./Application
         cp ../Application/NuGet.Config ./Application
 
-    # - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
-    #   name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
-    #   with:
-    #     dockerfile: ./${{ matrix.dockerfile.path }}
-    #     failure-threshold: error
+    - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+      name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
+      with:
+        dockerfile: ${{ matrix.dockerfile.path }}
+        failure-threshold: error
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
