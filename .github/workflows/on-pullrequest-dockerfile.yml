@@ -92,9 +92,13 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile: [
-          { name: "database", path: "Docker/dbadmin.Dockerfile" },
-          { name: "development", path: "Docker/dev.Dockerfile" },
+          { name: "database", path: "dbadmin.Dockerfile" },
+          { name: "development", path: "dev.Dockerfile" },
           ]
+    defaults:
+      run:
+        working-directory: Docker
+
     steps:
     - name: Checkout code
       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
@@ -102,8 +106,8 @@ jobs:
     - name: Copy application folder to docker context
       if:
       run: |
-        mkdir Docker/Application
-        cp -r ./Application/EdFi.Ods.AdminApi ./Docker/Application
+        mkdir Application
+        cp -r ../Application/EdFi.Ods.AdminApi ./Application
 
     - uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
       name: Run Linter on ${{ matrix.dockerfile.name }} Dockerfile
@@ -119,8 +123,6 @@ jobs:
 
     - name: Build
       run: docker build -f ${{ matrix.dockerfile.path }} -t ${{ matrix.dockerfile.name }} .
-      working-directory:
-        Docker
       env:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: abcdefgh1!
