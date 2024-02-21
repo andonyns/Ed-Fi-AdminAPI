@@ -98,6 +98,19 @@ jobs:
           sarif-file: sarif-${{ matrix.dockerfile.name }}.output.json
           summary: true
 
+      - name: Results
+        run: |
+          results=$(cat sarif-${{ matrix.dockerfile.name }}.output.json)
+          errors=$(echo $results | jq '[.runs[].results[] | select(.level == "error")] | length')
+          warnings=$(echo $results | jq '[.runs[].results[] | select(.level == "warning")] | length')
+          notes=$(echo $results | jq '[.runs[].results[] | select(.level == "note")] | length')
+
+          if [[ $errors -gt 0 ]]
+          then
+            echo "::error::There are $errors errors"
+            exit 1
+          fi
+
       - name: Upload SARIF result
         id: upload-sarif
         if: ${{ github.event_name != 'pull_request_target' }}
